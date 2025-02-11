@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валентинка</title>
+    <style>
+        @font-face {
+            font-family: 'Carlo Melow Sans';
+            src: url('fonts/Carlo Melow Sans.ttf') format('truetype');
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Основной фон */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);
+            z-index: -1;
+            transition: opacity 1.5s ease-in-out; /* Плавное изменение прозрачности */
+        }
+
+        /* Новый фон */
+        .new-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #fbd3e9, #bb377d);
+            z-index: -1;
+            opacity: 0; /* Начальная прозрачность */
+            transition: opacity 1.5s ease-in-out; /* Плавное изменение прозрачности */
+        }
+
+        .container-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .old-content, .new-content {
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            position: absolute;
+            z-index: 10;
+        }
+
+        .valentine-text {
+            color: rgb(255, 255, 255);
+            font-family: 'Carlo Melow Sans', sans-serif;
+            font-size: 60px;
+            margin: 0px;
+            letter-spacing: 3px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+        }
+
+        button {
+            font-size: 30px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .no {
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .sticker {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            transform: translateY(-150%);
+            opacity: 0;
+        }
+
+        .new-content {
+            transform: translateY(150%);
+            opacity: 0;
+            transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
+        }
+
+        .show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Основной фон -->
+    <div class="background"></div>
+    <!-- Новый фон -->
+    <div class="new-background"></div>
+
+    <div class="container-wrapper">
+        <div class="old-content">
+            <video class="sticker" autoplay loop muted>
+                <source src="sticker.webm" type="video/webm">
+            </video>
+            <h1 class="valentine-text">Ты будешь моей валентинкой?❤️</h1>
+            <div class="buttons">
+                <button class="yes" onclick="showNewContent()">✔</button>
+                <button class="no" onmouseenter="moveButton(this)">✘</button>
+            </div>
+        </div>
+
+        <!-- Контейнер для новых элементов -->
+        <div class="new-content">
+            <video class="sticker" id="sticker2" autoplay loop muted>
+                <source src="sticker2.webm" type="video/webm">
+            </video>
+            <h1 class="valentine-text" id="newText">Хихи, какой валентинкой,<br>Женой моей будешь💖</h1>
+        </div>
+    </div>
+
+    <script>
+        function moveButton(button) {
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const offsetX = (Math.random() - 0.5) * 1200; // Ограниченный разброс влево-вправо
+            const offsetY = (Math.random() - 0.5) * 500; // Ограниченный разброс вверх-вниз
+            button.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        }
+
+        function showNewContent() {
+            // Плавное изменение фона
+            document.querySelector('.background').style.opacity = 0;
+            document.querySelector('.new-background').style.opacity = 1;
+
+            // Скрытие старого контента
+            document.querySelector('.old-content').classList.add('hidden');
+
+            // Показ нового контента
+            setTimeout(() => {
+                document.querySelector('.new-content').classList.add('show');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
